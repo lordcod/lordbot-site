@@ -1,0 +1,39 @@
+#document-name {
+    font-size: 32px;
+}
+
+.title {
+    font-size: 28px;
+}
+.sub-title {
+    font-size: 24px;
+}
+.description {
+    font-size: 20px;
+}
+
+li {
+    text-align: left;
+}
+
+
+.title,#document-name {
+    color: darkturquoise;
+}
+
+b {
+    color: darkorange;
+}
+
+ul li::marker {
+	color: red;
+	font-size: 18px;
+}
+
+body {
+    font-weight: 550;
+    text-align: center;
+    
+    color: lightgrey;
+    background: rgb(32,11,50);
+}
