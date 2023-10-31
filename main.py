@@ -132,6 +132,10 @@ async def guilds():
             ver_guilds.append(str(g['id']))
     return render_template("guilds.html",guilds=guilds,ver_guilds=ver_guilds)
 
+@app.route("/terms")
+async def terms():
+    return render_template("terms_of_service.html")
+
 @app.route("/terms_of_service")
 async def terms_of_service():
     return render_template("terms_of_service.html")
