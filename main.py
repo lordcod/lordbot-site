@@ -1,13 +1,63 @@
 import flask
-from flask import (Flask,redirect,session,render_template,request)
-from resources import (info,discord)
+from flask import (Flask,redirect,session,render_template)
+import nextcord
+import logging
+import time
+from resources import (info,discord,roblox)
+
 
 app = Flask(__name__)
-app.secret_key = info.password
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
+login = True
+
+def check_roblox_auth(func):
+    async def wrapper(*args,**kwargs):
+        rotokens = session['ro_tokens']
+        if 'error' in rotokens:
+            del session['ro_tokens']
+            return render_template("/")
+        
+        intos = await roblox.introspect(rotokens)
+        if not intos["active"]:
+            rotokens = await roblox.updateRefreshToken(rotokens)
+            if 'error' in rotokens:
+                del session['ro_tokens']
+                return render_template("home.html",rotok=True)
+            session['ro_tokens'] = rotokens
+        
+        ret = await func(*args,**kwargs)
+        return ret
+    return wrapper
+
+def check_discord_auth(func):
+    async def wrapper(*args,**kwargs):
+        tokens = session['tokens']
+        if time.time() >= tokens['expires_in']:
+            tokens = await discord.updateTokens(tokens)
+            tokens['expires_in'] += time.time()
+            session['tokens'] = tokens
+        
+        user = await discord.getUserDate(tokens)
+        if 'code' in user:
+            del session['tokens']
+            return redirect('/')
+        
+        ret = await func(*args,**kwargs)
+        return ret
+    return wrapper
+
+
+
+
+@app.route("/link-role")
+async def role():
+    return redirect(info.dis_url_auth)
 
 @app.route("/link-role-callback")
 async def role_callback():
-    code = request.args.get('code')
+    code = flask.request.args.get('code')
     if code:
         tokens = await discord.getOAuthTokens(code)
         if 'error' in tokens:
@@ -18,26 +68,90 @@ async def role_callback():
     else:
         return "Error no attribyte code"
 
-@app.route("/register")
-async def register():
-    return redirect(info.url_auth)
+@app.route("/ro-link")
+async def ro():
+    return redirect(info.ro_url_auth)
 
-@app.route("/")
+@app.route("/rover")
+async def rover():
+    code = flask.request.args.get('code')
+    if code:
+        accesss = await roblox.getTokenResponse(code)
+        if 'error' in accesss:
+            return accesss['error']
+        session['ro_tokens'] = accesss
+        return redirect("/")
+    else:
+        return "Not found"
+
+@app.route('/')
 async def home():
-    if 'tokens' not in session:
-        return redirect("register")
+    return render_template('home/home.html')
 
+@app.route("/profile")
+async def profile():
+    #Discord
     tokens = session['tokens']
-    if time.time() >= tokens['expires_in']:
-        tokens = await discord.updateTokens(tokens)
-        tokens['expires_in'] += time.time()
-        session['tokens'] = tokens
     user = await discord.getUserDate(tokens)
-    if 'code' in user:
-        del session['tokens']
-        return redirect(url_auth)
     
-    return '1'
+    #Roblox
+    rotokens = session['ro_tokens']
+    user_id = roblox.getInfoResource(rotokens)
+    user_ro = roblox.getUserInfo(user_id)
+    
+    #Sus
+    metadata = {
+            'platform_name': 'Roblox',
+            'platform_username':user_ro['name'],
+            'metadata':{
+                'verified': True,
+                'premuim':await roblox.isPremeiumRoblox(user_ro['id']),
+                'data':user_ro['created'],
+            }
+        }
+    await discord.pushMetadate(metadata,tokens)
+    avatar = await roblox.getAvatarHeadshot(user_id)
+    return render_template("profile.html",ender=True,user_ro=user_ro,user_ds=user,avatar=avatar['data'][0]['imageUrl'])
 
-if __name__ == '__main__':
+@app.route("/guilds")
+async def guilds():
+    if 'tokens' not in session:
+        return redirect("/")
+    tokens = session['tokens']
+    gs = await discord.getGuilds(tokens)
+    if 'message' in gs:
+        return gs['message']
+    guilds = []
+    for g in gs:
+        if nextcord.Permissions(g["permissions"]).manage_guild:
+            guilds.append(g)
+    ver_guilds = []
+    for g in guilds:
+        responce = await discord.isBotGuild(g['id'])
+        if responce:
+            ver_guilds.append(str(g['id']))
+    return render_template("guilds.html",guilds=guilds,ver_guilds=ver_guilds)
+
+@app.route("/terms_of_service")
+async def terms_of_service():
+    return render_template("terms_of_service.html")
+
+@app.route("/privacy_policy")
+async def privacy_policy():
+    return render_template("privacy_policy.html")
+
+@app.errorhandler(404)
+async def page_not_found(err):
+    return '404'#render_template("page_not_found.html"),404
+
+@app.route("/dashboard/<int:id>")
+async def dashboard(id):
+    res = await discord.isBotGuild(id)
+    if res:
+        return "sus"
+    return redirect('/404')
+
+
+
+if __name__ == "__main__":
     app.run("0.0.0.0")
