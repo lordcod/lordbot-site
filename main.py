@@ -50,7 +50,7 @@ def check_discord_auth(func):
 
 
 
-
+# TODO registers
 @app.route("/link-role")
 async def role():
     return redirect(info.dis_url_auth)
@@ -84,11 +84,14 @@ async def rover():
     else:
         return "Not found"
 
+# TODO home
 @app.route('/')
 async def home():
     return render_template('home/home.html')
 
 @app.route("/profile")
+@check_discord_auth
+@check_roblox_auth
 async def profile():
     #Discord
     tokens = session['tokens']
@@ -111,9 +114,10 @@ async def profile():
         }
     await discord.pushMetadate(metadata,tokens)
     avatar = await roblox.getAvatarHeadshot(user_id)
-    return render_template("profile.html",ender=True,user_ro=user_ro,user_ds=user,avatar=avatar['data'][0]['imageUrl'])
+    return render_template("profile.html",user_ro=user_ro,user_ds=user,avatar=avatar['data'][0]['imageUrl'])
 
 @app.route("/guilds")
+@check_discord_auth
 async def guilds():
     if 'tokens' not in session:
         return redirect("/")
@@ -132,6 +136,21 @@ async def guilds():
             ver_guilds.append(str(g['id']))
     return render_template("guilds.html",guilds=guilds,ver_guilds=ver_guilds)
 
+
+# TODO ofter
+@app.errorhandler(404)
+async def page_not_found(err):
+    return '404'#render_template("page_not_found.html"),404
+
+@app.route("/dashboard/<int:id>")
+async def dashboard(id):
+    res = await discord.isBotGuild(id)
+    if res:
+        return "sus"
+    return redirect('/404')
+
+
+# TODO ToS and PP
 @app.route("/terms")
 async def terms():
     return render_template("terms_of_service.html")
@@ -143,17 +162,6 @@ async def terms_of_service():
 @app.route("/privacy_policy")
 async def privacy_policy():
     return render_template("privacy_policy.html")
-
-@app.errorhandler(404)
-async def page_not_found(err):
-    return '404'#render_template("page_not_found.html"),404
-
-@app.route("/dashboard/<int:id>")
-async def dashboard(id):
-    res = await discord.isBotGuild(id)
-    if res:
-        return "sus"
-    return redirect('/404')
 
 
 
