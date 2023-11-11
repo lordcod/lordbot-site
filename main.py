@@ -4,15 +4,18 @@ import nextcord
 import logging
 import time
 from resources import (info,discord,roblox)
+from functools import wraps
 
 
 app = Flask(__name__)
+app.secret_key = 'None'
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
 login = True
 
 def check_roblox_auth(func):
+    @wraps(func)
     async def wrapper(*args,**kwargs):
         rotokens = session['ro_tokens']
         if 'error' in rotokens:
@@ -32,8 +35,12 @@ def check_roblox_auth(func):
     return wrapper
 
 def check_discord_auth(func):
+    @wraps(func)
     async def wrapper(*args,**kwargs):
-        tokens = session['tokens']
+        tokens = session.get('tokens',None)
+        if not tokens:
+            return redirect('/')
+        
         if time.time() >= tokens['expires_in']:
             tokens = await discord.updateTokens(tokens)
             tokens['expires_in'] += time.time()
@@ -119,22 +126,21 @@ async def profile():
 @app.route("/guilds")
 @check_discord_auth
 async def guilds():
-    if 'tokens' not in session:
-        return redirect("/")
     tokens = session['tokens']
     gs = await discord.getGuilds(tokens)
     if 'message' in gs:
         return gs['message']
     guilds = []
+    bot_guilds = []
     for g in gs:
-        if nextcord.Permissions(g["permissions"]).manage_guild:
+        permission = int(g.get("permissions",0))
+        permission = nextcord.Permissions(permission)
+        if permission.manage_guild:
             guilds.append(g)
-    ver_guilds = []
-    for g in guilds:
-        responce = await discord.isBotGuild(g['id'])
-        if responce:
-            ver_guilds.append(str(g['id']))
-    return render_template("guilds.html",guilds=guilds,ver_guilds=ver_guilds)
+            responce = await discord.isBotGuild(g['id'])
+            if responce:
+                bot_guilds.append(str(g['id']))
+    return render_template("home/guilds.html",guilds=guilds,bot_guilds=bot_guilds)
 
 
 # TODO ofter
@@ -149,6 +155,9 @@ async def dashboard(id):
         return "sus"
     return redirect('/404')
 
+@app.route("/embed-builder")
+async def embed_builder():
+    return render_template("embed-builder.html")
 
 # TODO ToS and PP
 @app.route("/terms")

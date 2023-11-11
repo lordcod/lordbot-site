@@ -1,87 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/home.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/guilds.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/page_guild.css') }}">
-    <script type="text/javascript" src="{{ url_for('static',filename='scripts/guilds.js') }}"></script>
-    
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-</head>
-<body>
-    <div class="container">
-        <div class="menu">
-            <div class="menu-bot-icon">
-                <div class="bot-icon"></div>
-            </div>
-            <div class="menu-buttons">
-                <div class="menu-button">
-                    <a id="home-menu-button" href="#">
-                        <span class="material-symbols-outlined">
-                            home
-                        </span>
-                    </a>
-                    </div>
-                <div class="menu-button">
-                    <a id="home-servers-button" href="#">
-                        <span class="material-symbols-outlined">
-                            dns
-                        </span>
-                    </a>
-                    </div>
-                <div class="menu-button">
-                    <a id="home-settings-button" href="#">
-                        <span class="material-symbols-outlined">
-                            settings
-                        </span>
-                    </a>
-                    </div>
-                <div class="menu-button">
-                    <a href="#">
-                        <span class="material-symbols-outlined">
-                            help
-                        </span>
-                    </a>
-                </div>
-            </div>
-        </div>
+{% extends "home/__main__.html" %}
 
-        <div class="main">
-            <div class="home-page-title">
-                <div class="text-home">Rune / Home</div>
-                <div class="title-buttons">
-                    <div class="title-button">
-                        <a href="#">
-                            <span class="title-button-text">
-                                Status
-                            </span>
-                        </a>
-                    </div>
-                    <div class="title-button">
-                        <a href="#">
-                            <span class="title-button-text">
-                                Support
-                            </span>
-                        </a>
-                    </div>
-                    <div class="title-button">
-                        <a href="#">
-                            <span class="title-button-text">
-                                Profile
-                            </span>
-                        </a>
+{% block archive %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/guilds.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/page_guild.css') }}">
+<script type="text/javascript" src="{{ url_for('static',filename='scripts/guilds.js') }}"></script>
+{% endblock %}
+
+{% block home_content %}
+    {% for g in guilds %}
+        {% set hand = 'dashboard(this)' if g['id'] in bot_guilds else 'register(this)' %}
+        {% set isown = 'Owner' if g['owner'] else 'Manager Server' %}
+        <div class="page-server" onclick="{{hand}}" id="{{g['id']}}">
+            <div class="server-avatar-back" style="background: url(https://cdn.discordapp.com/icons/{{g['id']}}/{{g['icon']}}.webp?size=240);">
+                <div class="serever-avatar-back-blur">
+                    <div class="server-avatar">
+                        <img class="server-avatar-ico" src="https://cdn.discordapp.com/icons/{{g['id']}}/{{g['icon']}}.webp?size=240"><!-- АВА СЕРВЕРА -->
                     </div>
                 </div>
             </div>
-            <div class="home-page-content">
-                Home Page
+            <div class="server-info">
+                <div class="server-about">
+                    <h1 class="server-name">{{g['name']}}</h1>
+                    <h1 class="bot-name">{{isown}}</h1>
+                </div>
+                <div class="server-go-button">
+                    {% if g['id'] in ver_guilds %}
+                        <h1 class="server-go-button-text">Go</h1>
+                    {% else %}
+                        <h1 class="server-go-button-text">Setup</h1>
+                    {% endif %}
+                </div>
             </div>
-            <footer class="footer">
-                <div class="footer-content">Я футер</div>
-            </footer>
         </div>
-    </div>
-</body>
-</html>
+    {% endfor %}
+{% endblock %}
