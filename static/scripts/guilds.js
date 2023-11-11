@@ -7,3 +7,29 @@ function dashboard(event) {
     id = event.id
     window.open(`/dashboard/${id}`,'_parent');
 };
+
+window.addEventListener('load', function() {
+    var page_servers = this.document.getElementsByClassName("page-server")
+    for (let key_page in page_servers) {
+        let page = page_servers[key_page]
+        
+        let server_name = page.getElementsByClassName("server-name")[0].innerHTML
+        let server_avatart_back = page.getElementsByClassName("server-avatar-back")[0]
+        let server_avatar_ico = page.getElementsByClassName("server-avatar-ico")[0]
+        
+        let avatar_hash = server_avatart_back.getAttribute("hash")
+        console.log(avatar_hash)
+        if  (avatar_hash==="None") {
+            let NoneImg = document.createElement("div");
+            NoneImg.className = "server-avatar-let"
+            NoneImg.innerHTML = server_name.substring(0,1)
+            server_avatar_ico.parentNode.replaceChild(NoneImg,server_avatar_ico);
+        }
+        else {
+            let avatar = `https://cdn.discordapp.com/icons/${page.id}/${avatar_hash}.webp?size=240`
+            server_avatart_back.style.background = `url(${avatar})`
+            server_avatar_ico.src = avatar
+        }
+        
+    }
+});

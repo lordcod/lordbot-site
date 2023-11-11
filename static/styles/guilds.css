@@ -1,202 +1,127 @@
-@media screen and (min-width: 480px){
-    html{
-        font-size: 32px;
-    }
-
-    .material-symbols-outlined {
-    font-size: 1.5rem;
-    }
-    *{
-        box-sizing: border-box;
-        font-family: Arial, Helvetica, sans-serif;
-        font-weight: 550;
-        font-size: 1rem;
-        color: rgba(255,255,255,0.95);
-    }
-    
-    body{
-        margin: 0;
-        width: 100%;
-        height: 100vh;
-    }
-
-    .container{
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-wrap: nowrap;
-        flex-direction: column;
-    }
-
-    a{
-        text-decoration: none;
-    }
-    
-
-    .menu{
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: space-between;
-        width: 100%;
-        height: 80px;
-        background: rgb(48,118,118);
-    }
-
-    .bot-icon{
-        position: absolute;
-        background: url(src/dybfuo.png); /* СУДА АВУ */
-        background-size:contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        left: calc(50% - 37.5px);
-        height: 80px;
-        width: 75px;
-
-    }
-
-    .menu-buttons{
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        align-items: center;
-        justify-content: space-around;
-        margin-top: 5px;
-        width: 100%;
-    }
-    .menu-button{
-        text-align: center;
-        font-size: 40px;
-        margin-bottom: 10px;
-        width: 50px;
-        height: 50px;
-        text-decoration: none;
-    }
-
-    .main{
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        flex-wrap: nowrap;
-        align-items: center;
-        background: rgb(32,11,50);
-    }
-
-    .home-page-title{
-        margin-top: 15px;
-        width: 98%;
-        display: flex;
-        height: 85px;
-        justify-content: space-between;
-        align-items: center;
-        background: rgb(62,41,80);
-        border-radius: 5px;
-    }
-
-    .text-home{
-        margin: 0px;
-        margin-left: 20px;
-        font-size: 1.5rem;
-    }
-
-    .title-buttons{
-        display: flex;
-        flex-direction: row;
-    }
-
-    .title-button{
-        padding: 10px;
-        background: rgb(92,71,110);
-        margin-right: 7.5px;
-        border-radius: 5px;
-    }
-
-    .title-button:last-of-type{
-        margin-right: 20px;
-    }
-
-    .home-page-content{
-        margin-top: 15px;
-        width: 98%;
-        height: 100%;
-        background: rgb(62,41,80);
-        border-radius: 5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .footer{
-        position: fixed;
-        right: 1%;
-        bottom: 0;
-        z-index: 10;
-        width: 94%;
-        height: 85px;
-        background: rgb(62,41,80);
-        border-radius: 5px 5px 0px 0px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .footer-content{
-        color: rgba(255,255,255,0.70);
-    }
+.page-server{
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgb(39,41,52);
+    border-radius: 8px;
+    cursor: pointer;
 }
 
-@media screen and (min-width: 1024px){
-    html{
-        font-size: 16px ;
-    }
-
-    .material-symbols-outlined {
-    font-size: 2rem;
-    }
-
-    .menu{
-        width: 4%;
-    }
-
-    .container{
-        flex-direction: row;
-    }
-
-    .menu{
-        flex-direction: column;
-        height: 100%;
-        justify-content: start;
-    }
-
-    .menu-buttons{
-        flex-direction: column;
-        align-items: center;
-        justify-content: start;
-    }
-
-    .bot-icon{
-        position: relative;
-        left: 0;
-        height: 75px;
-        width: 100%;
-        margin-top: 15px;
-    }
-
-    .menu-button{
-        margin-top: 10px;
-    }
-    .home-page-title, .footer{
-        height: 55px;
-    }
+.server-avatar-back{
+    margin-top: 10px !important;
+    background-position: center center !important;
+    background-size: 90% !important;
+    background-repeat: no-repeat !important;
+    height: 140px !important;
+    border-radius: 8px !important;
+    -webkit-transition: all 0.5s ease-out 0s !important;
+    -moz-transition: all 0.5s ease-out 0s !important;
+    -o-transition: all 0.5s ease-out 0s !important;
+    transition: all 0.5s ease-out 0s !important;
 }
 
-@media screen and (min-width: 2048px){
-    html{
-        font-size: 24px;
-    }
+.serever-avatar-back-blur{
+    width: 100%;
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(12.5px) saturate(80%) contrast(120%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+}
 
-    .home-page-title, .footer{
-        height: 75px;
-    }
+.server-avatar{
+    margin: 0 auto;
+}
+
+.server-avatar-ico{
+    width: 75px;
+    height: 75px;
+    border: 2px solid #fff;
+    border-radius: 100%;
+    background: #000;
+    -webkit-transition: all 0.5s ease-out 0s;
+    -moz-transition: all 0.5s ease-out 0s;
+    -o-transition: all 0.5s ease-out 0s;
+    transition: all 0.5s ease-out 0s;
+}
+
+.server-info{
+    display: flex;
+    width: calc(100% - 20px);
+    justify-content: space-between;
+    margin: 12px;
+    
+}
+
+.server-about{
+    line-height: 22px;
+}
+
+.server-name{
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.bot-name{
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.server-go-button{
+    height: 30px;
+}
+
+.server-go-button-text{
+    position: relative;
+    line-height: 40px;
+    background: rgb(57,148,255);
+    text-align: center;
+    width: 70px;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 1.25rem;
+}
+
+
+.server-setup-button-text {
+    position: relative;
+    line-height: 40px;
+    background: rgb(14, 219, 219);
+    text-align: center;
+    width: 70px;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 1.25rem;
+}
+
+.page-server:hover .server-avatar-back{
+    background-size: 110% !important;
+}
+
+.page-server:hover .server-avatar-ico{
+    height: 100px;
+    width: 100px;
+}
+
+.server-avatar-let{
+    width: 75px;
+    height: 75px;
+    border: 2px solid #fff;
+    border-radius: 100%;
+    background: #000;
+    -webkit-transition: all 0.5s ease-out 0s;
+    -moz-transition: all 0.5s ease-out 0s;
+    -o-transition: all 0.5s ease-out 0s;
+    transition: all 0.5s ease-out 0s;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+}
+
+.page-server:hover .server-avatar-let{
+    font-size: 48px;
 }

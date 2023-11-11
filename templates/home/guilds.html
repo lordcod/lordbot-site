@@ -1,20 +1,29 @@
 {% extends "home/__main__.html" %}
 
+{% block title %}
+Servers
+{% endblock %}
+
+
 {% block archive %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/guilds.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/page_guild.css') }}">
-<script type="text/javascript" src="{{ url_for('static',filename='scripts/guilds.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/guilds.css') }}">
+    <script type="text/javascript" src="{{ url_for('static',filename='scripts/guilds.js') }}"></script>
+    <script>
+        console.log('{{ bot_guilds }}')
+    </script>
 {% endblock %}
 
 {% block home_content %}
     {% for g in guilds %}
         {% set hand = 'dashboard(this)' if g['id'] in bot_guilds else 'register(this)' %}
         {% set isown = 'Owner' if g['owner'] else 'Manager Server' %}
+        
+        
         <div class="page-server" onclick="{{hand}}" id="{{g['id']}}">
-            <div class="server-avatar-back" style="background: url(https://cdn.discordapp.com/icons/{{g['id']}}/{{g['icon']}}.webp?size=240);">
+            <div class="server-avatar-back" hash="{{g['icon']}}">
                 <div class="serever-avatar-back-blur">
                     <div class="server-avatar">
-                        <img class="server-avatar-ico" src="https://cdn.discordapp.com/icons/{{g['id']}}/{{g['icon']}}.webp?size=240"><!-- АВА СЕРВЕРА -->
+                        <img class="server-avatar-ico" hash="{{g['icon']}}">
                     </div>
                 </div>
             </div>
@@ -23,11 +32,11 @@
                     <h1 class="server-name">{{g['name']}}</h1>
                     <h1 class="bot-name">{{isown}}</h1>
                 </div>
-                <div class="server-go-button">
-                    {% if g['id'] in ver_guilds %}
+                <div class="server-gs-button">
+                    {% if g['id'] in bot_guilds %}
                         <h1 class="server-go-button-text">Go</h1>
                     {% else %}
-                        <h1 class="server-go-button-text">Setup</h1>
+                        <h1 class="server-setup-button-text">Setup</h1>
                     {% endif %}
                 </div>
             </div>

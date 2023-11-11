@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>{% block title %}{% endblock %}</title>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/home.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -10,33 +10,30 @@
 <body>
     <div class="container">
         <div class="menu">
-            <div class="menu-bot-icon">
-                <div class="bot-icon"></div>
-            </div>
             <div class="menu-buttons">
                 <div class="menu-button">
-                    <a id="home-menu-button" href="#">
+                    <a id="home-menu-button" href="/">
                         <span class="material-symbols-outlined">
                             home
                         </span>
                     </a>
-                    </div>
+                </div>
                 <div class="menu-button">
-                    <a id="home-servers-button" href="#">
+                    <a id="home-servers-button" href="/guilds">
                         <span class="material-symbols-outlined">
                             dns
                         </span>
                     </a>
-                    </div>
+                </div>
                 <div class="menu-button">
-                    <a id="home-settings-button" href="#">
+                    <a id="home-settings-button" href="/">
                         <span class="material-symbols-outlined">
                             settings
                         </span>
                     </a>
-                    </div>
+                </div>
                 <div class="menu-button">
-                    <a href="#">
+                    <a href="/help">
                         <span class="material-symbols-outlined">
                             help
                         </span>
@@ -47,24 +44,24 @@
 
         <div class="main">
             <div class="home-page-title">
-                <div class="text-home">Rune / Home</div>
+                <div class="text-home">{{ self.title() }}</div>
                 <div class="title-buttons">
                     <div class="title-button">
-                        <a href="#">
+                        <a href="/status">
                             <span class="title-button-text">
                                 Status
                             </span>
                         </a>
                     </div>
                     <div class="title-button">
-                        <a href="#">
+                        <a href="/help">
                             <span class="title-button-text">
                                 Support
                             </span>
                         </a>
                     </div>
                     <div class="title-button">
-                        <a href="#">
+                        <a href="/profile">
                             <span class="title-button-text">
                                 Profile
                             </span>
@@ -76,7 +73,10 @@
                 {% block home_content %}{% endblock %}
             </div>
             <footer class="footer">
-                <div class="footer-content">Я футер</div>
+                <div class="footer-content">
+                    <a class="footer-link" href="/terms_of_service">Terms Of Service</a>
+                    <a class="footer-link" href="/privacy_policy">Privacy Policy</a>
+                </div>
             </footer>
         </div>
     </div>

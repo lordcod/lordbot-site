@@ -71,7 +71,7 @@ async def role_callback():
             return tokens['error']
         tokens['expires_in'] += time.time()
         session['tokens'] = tokens
-        return redirect("/")
+        return redirect("/invite")
     else:
         return "Error no attribyte code"
 
@@ -87,9 +87,13 @@ async def rover():
         if 'error' in accesss:
             return accesss['error']
         session['ro_tokens'] = accesss
-        return redirect("/")
+        return redirect("/invite")
     else:
         return "Not found"
+
+@app.route("/invite")
+async def invite():
+    return render_template("invite.html")
 
 # TODO home
 @app.route('/')

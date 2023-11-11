@@ -86,7 +86,7 @@ async def getGuilds(tokens):
 async def getGuildMember(guild_id,member_id):
     url=f'{api}/guilds/{guild_id}/members/{member_id}'
     headers = {
-        "Authorization": f"Bearer {info.token}",
+        "Authorization": f"Bot {info.token}",
         "Content-Type": "application/json",
     }
     
