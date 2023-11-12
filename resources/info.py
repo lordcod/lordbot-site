@@ -6,7 +6,7 @@ password = 'dev'#''.join(random.choice(string.ascii_letters + string.digits) for
 
 
 
-lord = "http://localhost:5000"
+lord = "http://docs.lordbot.ru"
 
 
 dis_redirect_uri = f'{lord}/link-role-callback'
