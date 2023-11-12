@@ -12,8 +12,10 @@
         <div id="root"></div>
         <script type="text/javascript" src="{{ url_for('static',filename='scripts/embed-builder.js') }}"></script>
         <script>
-            tab = document.getElementsByClassName("tabs align-middle")[0]
-            tab.remove()
+            var cmd_name = document.getElementsByClassName("cmd-name")[0]
+            var tab = cmd_name.parentElement
+            
+            tab.parentNode.replaceChild(cmd_name,tab)
         </script>
     </body>
 </html>

@@ -3,7 +3,7 @@ from flask import (Flask,redirect,session,render_template)
 import nextcord
 import logging
 import time
-from .resources import (info,discord,roblox)
+from resources import (info,discord,roblox)
 
 from functools import wraps
 
@@ -18,7 +18,10 @@ login = True
 def check_roblox_auth(func):
     @wraps(func)
     async def wrapper(*args,**kwargs):
-        rotokens = session['ro_tokens']
+        rotokens = session.get('ro_tokens',None)
+        if not rotokens:
+            return redirect("/")
+        
         if 'error' in rotokens:
             del session['ro_tokens']
             return render_template("/")
@@ -151,7 +154,7 @@ async def guilds():
 # TODO ofter
 @app.errorhandler(404)
 async def page_not_found(err):
-    return '404'#render_template("page_not_found.html"),404
+    return render_template("page_not_found.html"),404
 
 @app.route("/dashboard/<int:id>")
 async def dashboard(id):
@@ -180,4 +183,4 @@ async def privacy_policy():
 
 
 if __name__ == "__main__":
-    app.run("0.0.0.0")
+    app.run("0.0.0.0",debug=True)
