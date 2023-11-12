@@ -18,7 +18,10 @@ login = True
 def check_roblox_auth(func):
     @wraps(func)
     async def wrapper(*args,**kwargs):
-        rotokens = session['ro_tokens']
+        rotokens = session.get('ro_tokens',None)
+        if not rotokens:
+            return redirect("/")
+        
         if 'error' in rotokens:
             del session['ro_tokens']
             return render_template("/")
