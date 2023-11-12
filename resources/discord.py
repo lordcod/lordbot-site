@@ -1,5 +1,5 @@
 import aiohttp
-from resources import info
+from . import info
 import orjson
 
 
