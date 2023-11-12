@@ -3,7 +3,7 @@ from flask import (Flask,redirect,session,render_template)
 import nextcord
 import logging
 import time
-from .resources import (info,discord,roblox)
+from resources import (info,discord,roblox)
 from functools import wraps
 
 
