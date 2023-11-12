@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    padding: 0
+}
+
+html {
+    font: 15px/22px arial, sans-serif
+}
+
+html {
+    background: #fff;
+    color: #222;
+    padding: 15px;
+}
+
+body {
+    margin: 7% auto 0;
+    max-width: 390px;
+    min-height: 180px;
+    padding: 30px 0 15px;
+}
+
+*>body {
+    background: url(https://cdn.discordapp.com/attachments/1117772504572907583/1172968088434638859/LordBot4.png?ex=65623ea8&is=654fc9a8&hm=8166fb24767b39003537f53fc387cb4b894b88ff42e31ad4b868d5608d1fb6fc&) 100% 5px no-repeat;
+    background-size: 160px;
+    padding-right: 205px;
+}
+
+p {
+    margin: 11px 0 22px;
+    overflow: hidden;
+}
+
+ins {
+    color: #777;
+    text-decoration: none;
+}
+
+a {
+    border: 0;
+    text-decoration: none;
+    font-size: 42px;
+    font-weight: 900;
+}
+
+@media screen and (max-width:772px) {
+    body {
+        background: none;
+        margin-top: 0;
+        max-width: none;
+        padding-right: 0;
+    }
+}
+
+#logo {
+    display: inline-block;
+    height: 54px;
+    width: 150px;
+}
