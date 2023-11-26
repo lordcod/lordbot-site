@@ -4,7 +4,7 @@ import nextcord
 import logging
 import time
 from resources import (info,discord,roblox)
-
+from typing import List
 from functools import wraps
 
 
@@ -157,11 +157,33 @@ async def page_not_found(err):
     return render_template("page_not_found.html"),404
 
 @app.route("/dashboard/<int:id>")
+@check_discord_auth
 async def dashboard(id):
     res = await discord.isBotGuild(id)
-    if res:
-        return "sus"
-    return redirect('/404')
+    if not res:
+        return "Not bot in server"
+    
+    tokens = session.get('tokens')
+    guilds: List[dict] = await discord.getGuilds(tokens)
+    guild_data: dict = None
+    
+    for gd in guilds:
+        guild_id = int(gd.get('id'))
+        if not guild_id == id:
+            continue
+        guild_data = gd
+        break
+    
+    if not guild_data:
+        return 'You are not on the server'
+    
+    permission_integer = int(guild_data.get("permissions",0))
+    permission = nextcord.Permissions(permission_integer)
+    
+    if not permission.manage_guild:
+        return 'You are not a server moderator'
+    
+    return 'sus'
 
 @app.route("/embed-builder")
 async def embed_builder():
