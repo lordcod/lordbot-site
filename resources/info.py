@@ -1,12 +1,12 @@
 import random
 import string
 
-password = 'dev'#''.join(random.choice(string.ascii_letters + string.digits) for _ in range(26))
+password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(26))
 
 
 
 
-lord = "http://localhost:5000"
+lord = "https://lordbot.ru"
 
 
 dis_redirect_uri = f'{lord}/link-role-callback'
