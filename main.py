@@ -8,7 +8,7 @@ from functools import wraps
 
 
 app = Flask(__name__)
-app.secret_key = 'None'
+app.secret_key = info.password
 login = True
 
 def check_roblox_auth(func):
