@@ -3,7 +3,14 @@ import string
 
 password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(26))
 
-
+invite_bot_link = (
+    'https://discord.com/api/oauth2/authorize'
+    '?client_id=1095713975532007434'
+    '&permissions=-1'
+    '&scope=bot%20applications.commands'
+    # '&response_type=code'
+    # '&redirect_uri=https://lordbot.ru/link-role-callback'
+)
 
 
 lord = "https://lordbot.ru"

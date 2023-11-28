@@ -1,18 +1,14 @@
 import flask
 from flask import (Flask,redirect,session,render_template)
 import nextcord
-import logging
 import time
-from .resources import (info,discord,roblox)
+from .resources import (info,discord,roblox)#.resources
 from typing import List
 from functools import wraps
 
 
 app = Flask(__name__)
 app.secret_key = 'None'
-log = logging.getLogger('werkzeug')
-log.setLevel(logging.ERROR)
-
 login = True
 
 def check_roblox_auth(func):
@@ -149,6 +145,10 @@ async def guilds():
             if responce:
                 bot_guilds.append(str(g['id']))
     return render_template("home/guilds.html",guilds=guilds,bot_guilds=bot_guilds)
+
+@app.route("/bot-invite")
+async def bot_invite():
+    return redirect(info.invite_bot_link)
 
 
 # TODO ofter
