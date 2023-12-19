@@ -1,31 +1,35 @@
+
+
 .page-server{
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: rgb(39,41,52);
+    width: 320px;
+    background: var(--dt-server);
     border-radius: 8px;
-    cursor: pointer;
 }
 
 .server-avatar-back{
-    margin-top: 10px !important;
-    background-position: center center !important;
-    background-size: 90% !important;
-    background-repeat: no-repeat !important;
-    height: 140px !important;
-    border-radius: 8px !important;
-    -webkit-transition: all 0.5s ease-out 0s !important;
-    -moz-transition: all 0.5s ease-out 0s !important;
-    -o-transition: all 0.5s ease-out 0s !important;
-    transition: all 0.5s ease-out 0s !important;
+    margin-top: 10px;
+    background: #91918c; 
+    background-position: center center;
+    background-size: 320px 320px;
+    background-repeat: no-repeat;
+    width: 300px;
+    height: 140px;
+    border-radius: 8px;
+    -webkit-transition: all 0.5s ease-out 0s;
+    -moz-transition: all 0.5s ease-out 0s;
+    -o-transition: all 0.5s ease-out 0s;
+    transition: all 0.5s ease-out 0s;
 }
 
 .serever-avatar-back-blur{
     width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(12.5px) saturate(80%) contrast(120%);
+    background-repeat: no-repeat;
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -57,26 +61,36 @@
 
 .server-about{
     line-height: 22px;
+    width: calc(100% - 82px);
 }
 
 .server-name{
     font-size: 1.2rem;
     font-weight: 600;
+    overflow-wrap: break-word; 
+    word-wrap: break-word;
+    word-break: break-all; 
+    line-break: auto;
+    hyphens: manual; 
 }
 
 .bot-name{
     font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.8);
+    overflow-wrap: break-word; 
+    word-wrap: break-word;
+    word-break: break-all;  
+    line-break: auto; 
+    hyphens: manual; 
 }
 
-.server-gs-button{
+.server-go-button{
     height: 30px;
 }
 
 .server-go-button-text{
     position: relative;
     line-height: 40px;
-    background: rgb(57,148,255);
     text-align: center;
     width: 70px;
     height: 40px;
@@ -84,19 +98,16 @@
     font-size: 1.25rem;
 }
 
-.server-setup-button-text {
-    position: relative;
-    line-height: 40px;
-    background: rgb(14, 219, 219);
-    text-align: center;
-    width: 70px;
-    height: 40px;
-    border-radius: 8px;
-    font-size: 1.25rem;
+.button-setup{
+    background: var(--dt-setup);
+}
+
+.button-invite{
+    background: var(--dt-invite);
 }
 
 .page-server:hover .server-avatar-back{
-    background-size: 110% !important;
+    background-size: 400px 400px;
 }
 
 .page-server:hover .server-avatar-ico{

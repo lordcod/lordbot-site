@@ -8,38 +8,87 @@ Servers
 {% block archive %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/guilds.css') }}">
     <script type="text/javascript" src="{{ url_for('static',filename='scripts/guilds.js') }}"></script>
-    <script>
-        console.log('{{ bot_guilds }}')
-    </script>
 {% endblock %}
 
-{% block home_content %}
-    {% for g in guilds %}
-        {% set hand = 'dashboard(this)' if g['id'] in bot_guilds else 'register(this)' %}
-        {% set isown = 'Owner' if g['owner'] else 'Manager Server' %}
-        
-        
-        <div class="page-server" onclick="{{hand}}" id="{{g['id']}}">
-            <div class="server-avatar-back" hash="{{g['icon']}}">
-                <div class="serever-avatar-back-blur">
-                    <div class="server-avatar">
-                        <img class="server-avatar-ico" hash="{{g['icon']}}">
-                    </div>
+{% block main %}
+        <div class="p-4 flex ai-center jc-center fd-column mb-4">
+            <div class="servers-search flex ai-center" style="width: 760px;">
+                <div class="h-full flex ai-center ml-2">
+                    <span class="material-symbols-outlined font-xl" >
+                        search
+                    </span>
+                </div>
+                <input class="h-6 p-4 pl-2 pr-2 w-full bc-trans font-ml" placeholder="Поиск..." id="search">
+                <div class="hideF transitA  h-full flex ai-center mr-2" id="clear">
+                    <span class="material-symbols-outlined font-l br-f p-1 button">
+                        close
+                    </span>
                 </div>
             </div>
-            <div class="server-info">
-                <div class="server-about">
-                    <h1 class="server-name">{{g['name']}}</h1>
-                    <h1 class="bot-name">{{isown}}</h1>
+            
+            <div class="mt-4 flex fd-column ai-center servers" id="serversList">
+                <h1 class="font-m fw-500 ft-75 m-2">ВЫБРАТЬ СЕРВЕР</h1>
+                
+                <div class="flex wrap width-border">
+                    {% for g in bot_guilds %}
+                        {% set role_status = 'Owner' if g['owner'] else 'Manager Server' %}
+                        
+                        <div onclick="dashboard(this)" id="{{g['id']}}" class="page-server" href="#">
+                            <div class="server-avatar-back">
+                                <div class="serever-avatar-back-blur" hash="{{g['icon']}}">
+                                    <div class="server-avatar">
+                                        <div class="server-avatar-let">
+                                            <img class="server-avatar-ico">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="server-info">
+                                <div class="server-about">
+                                    <h1 class="server-name">{{g['name']}}</h1> 
+                                    <h1 class="bot-name">{{role_status}}</h1>
+                                </div>
+                                <div class="server-go-button">
+                                    <h1 class="server-go-button-text button-setup">Setup</h1>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-                <div class="server-gs-button">
-                    {% if g['id'] in bot_guilds %}
-                        <h1 class="server-go-button-text">Go</h1>
-                    {% else %}
-                        <h1 class="server-setup-button-text">Setup</h1>
-                    {% endif %}
+                
+                <h1 class="font-m fw-500 ft-75 m-2">ПРИГЛАСИТЬ LORDCORD</h1>
+                
+                <div class="flex wrap width-border">
+                    {% for g in invite_guilds %}
+                        {% set role_status = 'Owner' if g['owner'] else 'Manager Server' %}
+                        
+                        
+                        <div onclick="register(this)" id="{{g['id']}}" class="page-server" href="#">
+                            <div class="server-avatar-back">
+                                <div class="serever-avatar-back-blur" hash="{{g['icon']}}">
+                                    <div class="server-avatar">
+                                        <div class="server-avatar-let">
+                                            <img class="server-avatar-ico">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="server-info">
+                                <div class="server-about">
+                                    <h1 class="server-name">{{g['name']}}</h1> 
+                                    <h1 class="bot-name">{{role_status}}</h1>
+                                </div>
+                                <div class="server-go-button">
+                                    <h1 class="server-go-button-text button-invite">Invite</h1>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
+            </div>
+            
+            <div class="hide" id="notFound">
+                Нот фаунд
             </div>
         </div>
-    {% endfor %}
 {% endblock %}

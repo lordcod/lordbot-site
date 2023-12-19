@@ -134,17 +134,18 @@ async def guilds():
     gs = await discord.getGuilds(tokens)
     if 'message' in gs:
         return gs['message']
-    guilds = []
+    invite_guilds = []
     bot_guilds = []
     for g in gs:
         permission = int(g.get("permissions",0))
         permission = nextcord.Permissions(permission)
         if permission.manage_guild:
-            guilds.append(g)
             responce = await discord.isBotGuild(g['id'])
             if responce:
-                bot_guilds.append(str(g['id']))
-    return render_template("home/guilds.html",guilds=guilds,bot_guilds=bot_guilds)
+                bot_guilds.append(g)
+            else:
+                invite_guilds.append(g)
+    return render_template("home/guilds.html",invite_guilds=invite_guilds,bot_guilds=bot_guilds)
 
 @app.route("/bot-invite")
 async def bot_invite():
@@ -205,4 +206,4 @@ async def privacy_policy():
 
 
 if __name__ == "__main__":
-    app.run("0.0.0.0",debug=True)
+    app.run("0.0.0.0",debug=True) 

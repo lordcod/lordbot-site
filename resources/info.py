@@ -1,7 +1,7 @@
 import random
 import string
 
-password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(26))
+password = '1'#.join(random.choice(string.ascii_letters + string.digits) for _ in range(26))
 
 invite_bot_link = (
     'https://discord.com/api/oauth2/authorize'
@@ -13,7 +13,7 @@ invite_bot_link = (
 )
 
 
-lord = "https://lordbot.ru"
+lord = "http://localhost:5000"
 
 
 dis_redirect_uri = f'{lord}/link-role-callback'
