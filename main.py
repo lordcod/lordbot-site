@@ -190,20 +190,6 @@ async def dashboard(id):
 async def embed_builder():
     return render_template("embed-builder.html")
 
-# TODO ToS and PP
-@app.route("/terms")
-async def terms():
-    return render_template("terms_of_service.html")
-
-@app.route("/terms_of_service")
-async def terms_of_service():
-    return render_template("terms_of_service.html")
-
-@app.route("/privacy_policy")
-async def privacy_policy():
-    return render_template("privacy_policy.html")
-
-
 
 if __name__ == "__main__":
     app.run("0.0.0.0",debug=True) 
