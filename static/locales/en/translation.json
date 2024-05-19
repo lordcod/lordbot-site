@@ -1,0 +1,89 @@
+{
+  "language": "en",
+  "header": {
+    "main": "MAIN",
+    "commands": "COMMANDS",
+    "documentation": "DOCUMENTATION",
+    "supportUs": "SUPPORT SERVER",
+    "onTop": "On top",
+    "menu": "menu",
+    "settings": "Settings"
+  },
+  "menu": {
+    "theme": "Theme",
+    "dark": "Dark",
+    "light": "Light",
+    "language": "Language",
+    "russian": "Russian",
+    "english": "English",
+    "system": "System"
+  },
+  "footer": {
+    "main": "Main",
+    "documentation": "Documentation",
+    "commands": "Commands",
+    "feedback": "Feedback",
+    "supportUs": "Support us",
+    "invite": "Invite",
+    "poweredBy": "Powered by",
+    "status": "Status",
+    "termsOfUse": "Terms of Use",
+    "confidentiality": "Confidentiality",
+    "cookies": "Cookies"
+  },
+  "main": {
+    "description": "Welcome to the world of LordCord - your trusty server management bot!",
+    "addToDiscord": "ADD TO DISCORD",
+    "myServers": "MY SERVERS",
+    "serverConquestPart1": "LordCord won hearts not only on",
+    "serverConquestPart2": "Discord servers, but also beyond them!",
+    "dignity": {
+      "firstTitle": "Customization",
+      "firstContent": "In the Customization Department, you have the amazing ability to easily change the prefix and color of system messages to add a unique style and special atmosphere to your server. With LordCord you can easily express your originality and uniqueness, making your server special and memorable for all users!",
+      "secondTitle": "Convenient setup",
+      "secondContent": "You can customize the bot's behavior to suit your unique needs and preferences. From permission management to complete command customization, every aspect of the bot is under your control and guarantees you perfect customization and the best user experience!",
+      "thirdTitle": "Multilingual",
+      "thirdContent": "Welcome to LordCord Multilingualism Department! We are pleased to offer you the opportunity to configure the bot to display information in any of the available languages, which will ensure effective and convenient interaction with users from different parts of the world. Our goal is to make communication and exchange of information as clear and convenient as possible for each participant, regardless of his language preference!",
+      "fourthTitle": "Automation",
+      "fourthContent": "LordCord is a powerful tool that opens up wide possibilities for you to manage roles, create automatic reactions and messages when there are threads. Our platform allows you to easily and efficiently configure all the necessary parameters to automate the operation of your server. Thanks to this, you can significantly simplify processes, make them more structured and convenient both for yourself and for members of your community. We strive to help you create the most functional and flexible server that will meet all your needs and desires.",
+      "fifthTitle": "Economy",
+      "fifthContent": "LordCord provides the opportunity to develop a custom economic system for your server, which will help you manage resources efficiently and stimulate the development of your community. By collaborating with us, you will be able to create a unique and flexible economic model that is suitable specifically for your goals and needs. We hope that our partnership will bring you maximum benefit and help make your server more attractive and dynamic for members.",
+      "sixthTitle": "Command settings",
+      "sixthContent": "The Command Settings department is an amazing space where you can carefully customize the various commands provided by the LordCord bot. Allow yourself to transform them to perfectly suit the needs and characteristics of your community. Each command can be specially configured and designed, to maintain a unique experience for users. Customizing teams is key to creating a personalized and unique experience for your members, which will help strengthen and grow your community as a whole."
+    }
+  },
+  "commands": {
+    "title": "Commands",
+    "findCommand": "Find command",
+    "all": "All",
+    "major": "Major",
+    "moderation": "Moderation",
+    "economy": "Economy",
+    "voice": "Voice",
+    "info": "Help",
+    "standardPrefix": "Standard prefix",
+    "canChange": "You can change it in the control panel",
+    "canUse": "Can use",
+    "syntax": "Syntax",
+    "optionalParameter": "Optional parameter",
+    "requiredParameter": "Required parameter",
+    "parameterSelection": "Parameter selection",
+    "selectionExample": "A | B | С",
+    "variants": "Variants",
+    "examples": "Examples",
+    "can": "Can",
+    "cant": "Can't",
+    "beTurnedOff": "be turned off"
+  },
+  "notFound": {
+    "temporarilyUnavailable": "Page is temporarily unavailable",
+    "temporarilyDesc": "We are working on its creation",
+    "unavailable": "Page not found",
+    "unavailableDesc": "You followed the wrong link or the page was deleted",
+    "returnTo": "Go back to ",
+    "mainPage": "The main page"
+  },
+  "errors": {
+    "comLang": "To change the command description language, reload the page. We are working to fix this. Sorry."
+  }
+}
