@@ -9,20 +9,18 @@ ipc_client = ipc.Client(host="localhost", secret_key="my_secret_key")
 
 @app.route('/guilds-count')
 async def handle_guilds_count():
-    gc = await get_bot_guilds_count()
+    gc = await get_bot_guilds_count(ipc_client)
     return str(gc)
 
 
 @app.route('/command_data')
-async def handle_command_data():
-    commands = await get_bot_command_data()
-    return commands
+def handle_command_data():
+    return get_bot_command_data(ipc_client)
 
 
 @app.route('/command_data/<lang>')
-async def handle_command_data_lang(lang):
-    commands = await get_command_from_lang(lang)
-    return commands
+def handle_command_data_lang(lang):
+    return get_command_from_lang(ipc_client, lang)
 
 
 if __name__ == "__main__":
