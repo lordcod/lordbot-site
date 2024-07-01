@@ -3,8 +3,16 @@ from flask import Flask
 
 from .api import get_bot_command_data, get_bot_guilds_count, get_command_from_lang
 
+
 app = Flask(__name__)
 ipc_client = ipc.Client(host="localhost", secret_key="my_secret_key")
+
+global_token = 'HyZB2UIvZwejO7XRY9n7GZ9YISzw6qMNEz386dKbdY0'
+
+
+@app.route('/.well-known/acme-challenge/<local_token>')
+def handle_token(local_token):
+    return local_token + '.' + global_token
 
 
 @app.route('/guilds-count')
