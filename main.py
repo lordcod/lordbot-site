@@ -35,7 +35,7 @@ async def handle_token(local_token: str):
 @app.get('/guilds-count')
 async def handle_guilds_count():
     gc = await get_bot_guilds_count()
-    return gc
+    return str(gc)
 
 
 @app.get('/command_data')
