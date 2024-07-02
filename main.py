@@ -4,8 +4,8 @@ import orjson
 from uvicorn import Config, Server
 
 
-import api
-from api import get_bot_command_data, get_bot_guilds_count, get_command_from_lang
+from . import api
+from .api import get_bot_command_data, get_bot_guilds_count, get_command_from_lang
 
 logging.basicConfig(level=logging.DEBUG)
 
