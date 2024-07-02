@@ -1,5 +1,5 @@
 import orjson
-from utils import set_cooldown
+from .utils import set_cooldown
 import aiohttp
 
 api_url = ''
