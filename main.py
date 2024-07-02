@@ -1,7 +1,6 @@
 import logging
 from flask import Flask, Response, request
 import orjson
-from uvicorn import Config, Server
 
 
 from . import api
