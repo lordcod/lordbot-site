@@ -1,18 +1,38 @@
-from .utils import set_cooldown
+import orjson
+from utils import set_cooldown
+import aiohttp
 
+api_url = ''
+password = ''
+
+async def post_api(endpoint: str, data: dict = {}):
+    payload = {
+        'endpoint': endpoint,
+        'data': data
+    }
+    headers = {
+        'Authorization': password
+    }
+    async with aiohttp.ClientSession() as session:
+        async with session.post(api_url, json=payload, headers=headers) as responce:
+            text = await responce.read()
+            try:
+                return orjson.loads(text)
+            except orjson.JSONDecodeError:
+                return text
 
 @set_cooldown(10, {})
-async def get_bot_command_data(ipc_client):
-    return await ipc_client.request("get_command_data")
+def get_bot_command_data():
+    return post_api('get_command_data')
 
 
 @set_cooldown(10, 0)
-async def get_bot_guilds_count(ipc_client):
-    return await ipc_client.request("get_guilds_count")
+def get_bot_guilds_count():
+    return post_api('get_guilds_count')
 
 
-async def get_command_from_lang(ipc_client, lang):
-    commands = await get_bot_command_data(ipc_client)
+async def get_command_from_lang(lang):
+    commands = await get_bot_command_data()
 
     new_cmds_data = []
 

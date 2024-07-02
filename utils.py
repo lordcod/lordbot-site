@@ -18,7 +18,7 @@ def set_cooldown(sec, default: Any = None):
 
             try:
                 result = await func(*args)
-            except Exception:
+            except Exception as exp:
                 return default
             else:
                 results[args] = result
