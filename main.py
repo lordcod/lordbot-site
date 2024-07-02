@@ -35,23 +35,17 @@ async def handle_token(local_token: str):
 @app.get('/guilds-count')
 async def handle_guilds_count():
     gc = await get_bot_guilds_count()
-    return str(gc)
+    return gc
 
 
 @app.get('/command_data')
 async def handle_command_data():
     result = await get_bot_command_data()
-    return orjson.dumps(result).decode()
+    return result
 
 
 @app.get('/command_data/<lang>')
 async def handle_command_data_lang(lang: str):
     result = await get_command_from_lang(lang)
-    return orjson.dumps(result).decode()
+    return result
 
-
-if __name__ == "__main__":
-    config = Config(app, "0.0.0.0", 8000, log_config=None,
-                    log_level=logging.CRITICAL)
-    server = Server(config)
-    server.run()

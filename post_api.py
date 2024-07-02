@@ -8,7 +8,7 @@ async def main():
     }
 
     async with aiohttp.ClientSession() as session:
-        async with session.post('http://localhost:8000/post-api-config/DE05EbFbe596F5ce3E6e707ec', json=payload) as res:
+        async with session.post('https://api.lordcord.fun/post-api-config/DE05EbFbe596F5ce3E6e707ec', json=payload) as res:
             print(res)
 
 asyncio.run(main())
