@@ -1,1 +1,1 @@
-from lordsite import application
+from .main import app as application
