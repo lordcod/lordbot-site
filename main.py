@@ -35,17 +35,23 @@ async def handle_token(local_token: str):
 @app.get('/guilds-count')
 async def handle_guilds_count():
     gc = await get_bot_guilds_count()
-    return str(gc)
+    resp = Response(str(gc))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 
 @app.get('/command_data')
 async def handle_command_data():
     result = await get_bot_command_data()
-    return result
+    resp = Response(result)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 
 @app.get('/command_data/<lang>')
 async def handle_command_data_lang(lang: str):
     result = await get_command_from_lang(lang)
-    return result
+    resp = Response(result)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
