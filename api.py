@@ -1,11 +1,19 @@
-import orjson
-from .utils import set_cooldown
+from typing import Dict
 import aiohttp
+
 
 api_url = ''
 password = ''
+cache: Dict[str, dict | list] = {}
+
 
 async def post_api(endpoint: str, data: dict = {}):
+    if not api_url:
+        return {
+            'message': 'authorization failed',
+            'code': 401
+        }
+
     payload = {
         'endpoint': endpoint,
         'data': data
@@ -14,25 +22,46 @@ async def post_api(endpoint: str, data: dict = {}):
         'Authorization': password
     }
     async with aiohttp.ClientSession() as session:
-        async with session.post(api_url, json=payload, headers=headers) as responce:
-            text = await responce.read()
+        async with session.post(api_url, json=payload, headers=headers) as response:
+
+            if response.status == 401:
+                return {
+                    'code': 401,
+                    'message': 'authorization failed'
+                }
+
+            if response.status == 429:
+                if endpoint not in cache:
+                    data = {
+                        'code': 429,
+                        'message': 'There are too many requests. The caching state could not be saved.'
+                    }
+                else:
+                    data = cache[endpoint]
+                return data
+
             try:
-                return orjson.loads(text)
-            except orjson.JSONDecodeError:
-                return text
+                data = await response.json()
+            except aiohttp.ContentTypeError:
+                data = await response.read()
 
-@set_cooldown(10, {})
-def get_bot_command_data():
-    return post_api('get_command_data')
+            cache[endpoint] = data
+            return data
 
 
-@set_cooldown(10, 0)
 def get_bot_guilds_count():
     return post_api('get_guilds_count')
 
 
+def get_bot_command_data():
+    return post_api('get_command_data')
+
+
 async def get_command_from_lang(lang):
     commands = await get_bot_command_data()
+
+    if 'code' in commands:
+        return commands
 
     new_cmds_data = []
 
@@ -61,3 +90,29 @@ async def get_command_from_lang(lang):
         })
 
     return new_cmds_data
+
+
+async def get_command_from_cmd(cmd_name):
+    commands = await get_bot_command_data()
+
+    if 'code' in commands:
+        return commands
+
+    for cmd in commands:
+        if cmd['name'] == cmd_name:
+            return cmd
+    else:
+        return {'code': 404, 'message': 'the command was not found'}
+
+
+async def get_command_from_cmd_land(lang, cmd_name):
+    commands = await get_command_from_lang(lang)
+
+    if 'code' in commands:
+        return commands
+
+    for cmd in commands:
+        if cmd['name'] == cmd_name:
+            return cmd
+    else:
+        return {'code': 404, 'message': 'the command was not found'}

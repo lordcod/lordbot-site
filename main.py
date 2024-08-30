@@ -1,28 +1,67 @@
 import logging
-from flask import Flask, Response, request
 import orjson
+from flask import Flask, Response, request
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
+import api
+from api import (get_bot_command_data, get_bot_guilds_count,
+                 get_command_from_lang, get_command_from_cmd,
+                 get_command_from_cmd_land)
 
-from . import api
-from .api import get_bot_command_data, get_bot_guilds_count, get_command_from_lang
 
 logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
+limiter = Limiter(
+    app=app,
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"]
+)
 global_token = 'HyZB2UIvZwejO7XRY9n7GZ9YISzw6qMNEz386dKbdY0'
 secret_token = 'DE05EbFbe596F5ce3E6e707ec'
 
+langs = ['en', 'ru', 'id', 'da', 'de', 'es', 'fr', 'pl', 'tr']
 
-@app.post('/post-api-config/<password>')
-async def handle_api_token(password: str):
-    if password != secret_token:
+
+def handle_response(result: dict) -> Response:
+    if 'code' in result:
+        status = result['code']
+    else:
+        status = 200
+
+    resp = Response(
+        orjson.dumps(result),
+        status=status,
+        headers={
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json'
+        })
+    return resp
+
+
+@app.get('/api-config')
+async def handle_get_api_token():
+    if request.headers.get('Authorization') != secret_token:
         return Response(status=401)
+
+    data = {
+        'url': api.api_url,
+        'password': api.password
+    }
+    return handle_response(data)
+
+
+@app.post('/api-config')
+async def handle_post_api_token():
+    if request.headers.get('Authorization') != secret_token:
+        return Response(status=401)
+
     try:
         json = request.json
         api.api_url = json['url']
         api.password = json['password']
-    except Exception as exp:
-        print(exp)
+    except Exception:
         return Response(status=400)
     return Response(status=204)
 
@@ -34,24 +73,56 @@ async def handle_token(local_token: str):
 
 @app.get('/guilds-count')
 async def handle_guilds_count():
-    gc = await get_bot_guilds_count()
-    resp = Response(str(gc))
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-    return resp
+    result = await get_bot_guilds_count()
+    return handle_response(result)
 
 
 @app.get('/command_data')
 async def handle_command_data():
     result = await get_bot_command_data()
-    resp = Response(result)
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-    return resp
+    return handle_response(result)
 
 
-@app.get('/command_data/<lang>')
-async def handle_command_data_lang(lang: str):
-    result = await get_command_from_lang(lang)
-    resp = Response(result)
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-    return resp
+@app.get('/command_data/<data>')
+@limiter.limit("5 per minute")
+async def handle_comman_lang_or_cmd(data: str):
+    if data in langs:
+        result = await get_command_from_lang(data)
+    else:
+        result = await get_command_from_cmd(data)
 
+    return handle_response(result)
+
+
+@app.get('/command_data/<lang>/<cmd>')
+async def handle_command_lang_cmd(lang: str, cmd: str):
+    result = await get_command_from_cmd_land(lang, cmd)
+    return handle_response(result)
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return handle_response({
+        'code': 404,
+        'message': 'the endpoint was not found'
+    })
+
+
+@app.errorhandler(429)
+def page_client_error(error):
+    return handle_response({
+        'code': 429,
+        'message': 'There are too many requests.'
+    })
+
+
+@app.errorhandler(500)
+def page_client_error(error):
+    return handle_response({
+        'code': 500,
+        'message': 'unexpected error'
+    })
+
+
+if __name__ == '__main__':
+    app.run(port=5000)
