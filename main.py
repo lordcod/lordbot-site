@@ -16,7 +16,7 @@ app = Flask(__name__)
 limiter = Limiter(
     app=app,
     key_func=get_remote_address,
-    default_limits=["200 per day", "50 per hour"]
+    default_limits=["3000 per day", "600 per hour", "30 per minute"]
 )
 global_token = 'HyZB2UIvZwejO7XRY9n7GZ9YISzw6qMNEz386dKbdY0'
 secret_token = 'DE05EbFbe596F5ce3E6e707ec'
@@ -84,7 +84,6 @@ async def handle_command_data():
 
 
 @app.get('/command_data/<data>')
-@limiter.limit("5 per minute")
 async def handle_comman_lang_or_cmd(data: str):
     if data in langs:
         result = await get_command_from_lang(data)
@@ -117,7 +116,7 @@ def page_client_error(error):
 
 
 @app.errorhandler(500)
-def page_client_error(error):
+def page_server_error(error):
     return handle_response({
         'code': 500,
         'message': 'unexpected error'
