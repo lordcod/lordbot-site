@@ -10,7 +10,6 @@ api_url = ''
 password = ''
 cache: Dict[str, dict | list] = {}
 NGROK_API_KEY = os.getenv('NGROK_API_KEY')
-print(NGROK_API_KEY)
 
 
 async def get_endpoint_url(session: aiohttp.ClientSession) -> Optional[str]:
@@ -55,6 +54,11 @@ async def try_update_config(session: aiohttp.ClientSession) -> Optional[dict]:
 async def send_request(session: aiohttp.ClientSession,  payload: dict, headers: dict) -> dict | bytes:
     endpoint = payload['endpoint']
 
+    if not api_url or not password:
+        error = await try_update_config(session)
+        if error is not None:
+            return error
+
     async with session.post(api_url, json=payload, headers=headers) as response:
         if response.status == 401 or response.status == 404:
             error = await try_update_config(session)
@@ -90,11 +94,6 @@ async def send_request(session: aiohttp.ClientSession,  payload: dict, headers: 
 
 async def post_api(endpoint: str, data: dict = {}):
     session = aiohttp.ClientSession()
-
-    if not api_url:
-        error = await try_update_config(session)
-        if error is not None:
-            return error
 
     payload = {
         'endpoint': endpoint,
